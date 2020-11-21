@@ -21,12 +21,16 @@ namespace AlbumManagement.Models
         [MinLength(3)]
         [MaxLength(30)]
         public string Password { get; set; }
-        [DefaultValue("qwerty")]
+        [DefaultValue("")]
         public string Salt { get; set; }
 
         public int IssueYearPreferenceFilter { get; set; }
 
         public SortEnum IssueYearPreferenceSort { get; set; }
+
+        public string NameArtistPreferenceFilter { get; set; }
+
+        public SortEnum NameArtistPreferenceSort { get; set; }
     }
         
 

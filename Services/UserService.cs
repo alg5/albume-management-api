@@ -30,6 +30,7 @@ namespace AlbumManagement.Services
                         select u).First();
                 if (user != null)
                 {
+                    user.Password = string.Empty;
                     //await Authenticate(model.Name); 
                 }
             }
@@ -40,6 +41,39 @@ namespace AlbumManagement.Services
             finally
             {
                 var objects = new { Login = user, ErrorCode = errorCode };
+                result = JsonSerializer.Serialize(objects);
+            }
+            return result;
+        }
+
+        public string ChangePreference(User userPref)
+        {
+            int errorCode = 0;
+            string result = string.Empty;
+            User user = null;
+            try
+            {
+                user = (from u in db.Users
+                        where u.Id == userPref.Id
+                        select u).First();
+                if (user != null)
+                {
+                    user.IssueYearPreferenceFilter = userPref.IssueYearPreferenceFilter;
+                    user.IssueYearPreferenceSort = userPref.IssueYearPreferenceSort;
+                    user.NameArtistPreferenceFilter = userPref.NameArtistPreferenceFilter;
+                    user.NameArtistPreferenceSort = userPref.NameArtistPreferenceSort;
+                    db.Users.Update(user);
+                    db.SaveChanges();
+                    user.Password = string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+                errorCode = -1;
+            }
+            finally
+            {
+                var objects = new { ChangePreference = user, ErrorCode = errorCode };
                 result = JsonSerializer.Serialize(objects);
             }
             return result;

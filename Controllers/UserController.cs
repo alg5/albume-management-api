@@ -21,14 +21,7 @@ namespace AlbumManagement.Controllers
             db = context;
             this.userService = userService;
         }
-        //[HttpGet]
-
-        //[Route("[controller]/[action]")]
-        //public IActionResult Login(string username, string password)
-        //{
-        //    string res = userService.Login(username, password);
-        //    return Ok(res);
-        //}
+ 
         [HttpPost]
         //[ValidateAntiForgeryToken]
  
@@ -37,37 +30,14 @@ namespace AlbumManagement.Controllers
 
             string res = userService.Login(model);
             return Ok(res);
-
-            //int errorCode = 0;
-            //string result = string.Empty;
-            //User user = null;
-            //try
-            //{
-            //    user = await db.Users.FirstOrDefaultAsync(u => u.Name == model.Name && u.Password == model.Password);
-            //    if (user != null)
-            //    {
-            //        await Authenticate(model.Name);
-            //    }
-            //    else
-            //        errorCode = -1;
-            //}
-            //catch (Exception ex)
-            //{
-            //    //TODO
-            //    string s = ex.Message;
-            //    errorCode = -1;
-            //}
-
-            //finally
-            //{
-            //    var objects = new { Login = user, ErrorCode = errorCode };
-            //    result = JsonSerializer.Serialize(objects);
-            //}
- 
-          
-            //return Ok(user);
         }
+        [HttpPost]
+       public IActionResult ChangePreference([FromBody] User model)
+        {
 
+            string res = userService.ChangePreference(model);
+            return Ok(res);
+        }
         private async Task Authenticate(string userName)
         {
             // create one claim
