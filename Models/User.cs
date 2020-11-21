@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using static AlbumManagement.Models.Enums;
 
 namespace AlbumManagement.Models
 {
@@ -22,6 +23,11 @@ namespace AlbumManagement.Models
         public string Password { get; set; }
         [DefaultValue("qwerty")]
         public string Salt { get; set; }
+
+        public int IssueYearPreferenceFilter { get; set; }
+
+        public SortEnum IssueYearPreferenceSort { get; set; }
     }
+        
 
 }

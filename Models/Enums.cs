@@ -20,5 +20,11 @@ namespace AlbumManagement.Models
             Polka
 
         }
+        public enum SortEnum
+        {
+            None,
+            Asc,
+            Desc
+        }
     }
 }

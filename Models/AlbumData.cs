@@ -29,12 +29,15 @@ namespace AlbumManagement.Models
                 FileModel f1 = new FileModel { Name = "Beatles", Path = "Beatles.jpg" };
                 FileModel f2 = new FileModel { Name = "BeatlesRoad", Path = "BeatlesRoad.jpg" };
                 FileModel f3 = new FileModel { Name = "RollingStone", Path = "RollingStone.jpg" };
-                db.Pictures.AddRange(f1, f2, f3);
+                FileModel f4 = new FileModel { Name = "MichaelJackson", Path = "MichaelJackson.jpg" };
+                db.Pictures.AddRange(f1, f2, f3, f4);
 
                 Album a1 = new Album { Caption = "Beatles", IssueYear = 1965, NameArtist = "Jon Lennon", Genres = GenresEnum.RockMusic, Picture = f1, Owner = u1};
-                Album a2 = new Album { Caption = "RollingStone", IssueYear = 1970, NameArtist = "Harry Styles", Genres = GenresEnum.ElectronicMusic, Picture = f3, Owner = u1};
-                Album a3 = new Album { Caption = "BeatlesRoad", IssueYear = 1969, NameArtist = "Jon Lennon", Genres = GenresEnum.RockMusic, Picture = f2, Owner = u2};
-                db.AlbumList.AddRange(a1, a2, a3);
+                Album a2 = new Album { Caption = "Rolling Stone", IssueYear = 1970, NameArtist = "Harry Styles", Genres = GenresEnum.ElectronicMusic, Picture = f3, Owner = u1};
+                Album a3 = new Album { Caption = "Beatles Road", IssueYear = 1966, NameArtist = "Jon Lennon", Genres = GenresEnum.RockMusic, Picture = f2, Owner = u2};
+                Album a4 = new Album { Caption = "Michael Jackson Cover", IssueYear = 1969, NameArtist = "Michael Jackson", Genres = GenresEnum.ElectronicMusic, Picture = f4, Owner = u1};
+                Album a5 = new Album { Caption = "Beatles Road", IssueYear = 1969, NameArtist = "Jon Lennon", Genres = GenresEnum.RockMusic, Picture = f2, Owner = u1 };
+                db.AlbumList.AddRange(a1, a2, a3, a4, a5);
                 db.SaveChanges();
 
 

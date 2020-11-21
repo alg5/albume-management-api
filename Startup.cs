@@ -70,7 +70,7 @@ namespace AlbumManagement
             app.UseRouting();
             app.UseCors(MyAllowSpecificOrigins);
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
             app.UseAuthorization();
 
  

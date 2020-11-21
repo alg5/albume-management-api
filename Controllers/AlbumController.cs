@@ -31,15 +31,6 @@ namespace AlbumManagement.Controllers
             return Ok(res);
         }
 
-        //TODO move to AutorizationController
-        [HttpGet]
-        [Route("[controller]/[action]")]
-        //public IActionResult Login(string username, string password)
-        //{
-        //    string res = userService.Login(username, password);
-        //    return Ok(res);
-        //}
-
         [HttpGet]
         [Route("[controller]/[action]")]
         public IActionResult GetAlbums(int id)

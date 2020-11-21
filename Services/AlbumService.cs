@@ -21,13 +21,28 @@ namespace AlbumManagement.Services
             int errorCode = 0;
             string result = string.Empty;
             IList<Album> lstAlbums = null;
+            //User user = null;
  
            // int totalRows = 0;
             try
             {
+                //user = (from u in db.Users
+                //        where u.Id == id
+                //        select u).First();
+                //if (user == null)
+                //{
+                //    throw new Exception("user not exists");
+                //}
+
                 lstAlbums = (from album in db.AlbumList.Include(u => u.Owner).Include(p => p.Picture)
                              where album.Owner.Id == @id
                              select album).ToList();
+                
+                //if (user.IssueYearPreferenceSort == Enums.SortEnum.Asc)
+                //{
+                //    lstAlbums = lstAlbums.OrderBy(x => x.IssueYear).ToList();
+                //}
+                
             }
             catch(Exception ex)
             {
