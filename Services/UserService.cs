@@ -26,7 +26,7 @@ namespace AlbumManagement.Services
             try
             {
                 user = (from u in db.Users
-                        where u.Name == userLog.Name && u.Password == userLog.Password
+                        where u.Login == userLog.Login && u.Password == userLog.Password
                         select u).First();
                 if (user != null)
                 {

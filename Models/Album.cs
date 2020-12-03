@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -21,12 +22,15 @@ namespace AlbumManagement.Models
         public string NameArtist { get; set; }
 
         public GenresEnum Genres { get; set; }
+        public string GenresDesc { get; set; }
 
-        [Required]
+        //[Required]
+        //[BindProperty]
         public FileModel Picture { get; set; }
 
 
-        [Required]
+       // [Required]
+       // [BindProperty]
         public User Owner { get; set; }
 
 

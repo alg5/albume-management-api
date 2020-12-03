@@ -14,10 +14,16 @@ namespace AlbumManagement.Models
         public int Id { get; set; }
         [Required]
         [MaxLength(30)]
-        public string Name { get; set; }
-        //[NotMapped]
-        //[DataType(DataType.Password)]
+        public string Login { get; set; }       
+ 
         [Required]
+        [MaxLength(30)]
+       public string Name { get; set; }
+
+       
+            //[NotMapped]
+            //[DataType(DataType.Password)]
+            [Required]
         [MinLength(3)]
         [MaxLength(30)]
         public string Password { get; set; }

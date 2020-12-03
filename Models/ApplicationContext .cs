@@ -12,6 +12,13 @@ namespace AlbumManagement.Models
         public DbSet<FileModel> Pictures { get; set; }
         public DbSet<Album> AlbumList { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<User>(entity => {
+                entity.HasIndex(e => e.Login).IsUnique();
+            });
+        }
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
                    : base(options)
         {
