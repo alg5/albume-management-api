@@ -178,18 +178,37 @@ namespace AlbumManagement.Services
             int errorCode = 0;
             string result = string.Empty;
             Album album = null;
+            FileModel picture = null;
             //FileModel picture = null;
             try
             {
-                album = db.AlbumList.Include(u => u.Owner).Include(p => p.Picture).FirstOrDefault(album => album.Id == albumSrc.Id);
+                //album = db.AlbumList.Include(u => u.Owner).Include(p => p.Picture).FirstOrDefault(album => album.Id == albumSrc.Id);
+                album = db.AlbumList.Include(p => p.Picture).FirstOrDefault(album => album.Id == albumSrc.Id);
                 if (null == album)
                 {
                     errorCode = -1;
                     throw new Exception("album not found");
 
                 }
-                album = albumSrc;
+                album.Caption = albumSrc.Caption;
+                album.IssueYear = albumSrc.IssueYear;
+                album.NameArtist = albumSrc.NameArtist;
+                album.Genres = albumSrc.Genres;
+                album.GenresDesc = albumSrc.GenresDesc;
+                album.Picture.Name = albumSrc.Picture.Name;
+                album.Picture.Path = albumSrc.Picture.Path;
                 db.AlbumList.Update(album);
+                //picture = db.Pictures.FirstOrDefault(pic => pic.Id == album.Picture.Id);
+                //if (picture == null)
+                //{
+                //    errorCode = -1;
+                //    throw new Exception("picture not found");
+
+                //}
+                //picture.Name = album.Picture.Name;
+                //picture.Path = album.Picture.Path;
+                //db.Pictures.Update(picture);
+
                 db.SaveChanges();
             }
             catch (Exception ex)
@@ -246,6 +265,43 @@ namespace AlbumManagement.Services
             return result;
 
         }
+
+        public string ValidateAlbumCaptionNotTaken(int idUser, string albumCaption)
+        {
+            int errorCode = 0;
+            string result = string.Empty;
+            string msg = string.Empty;
+            Album album = null;
+            bool b = false;
+            try
+            {
+
+                album = db.AlbumList.FirstOrDefault(album => album.Owner.Id == idUser && album.Caption == albumCaption);
+                if (null == album)
+                {
+                    b = true; 
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                errorCode = -1;
+                //TODO
+                msg = ex.Message;
+            }
+            finally
+            {
+                var objects = new { ValidateAlbumCaptionNotTaken = b, ErrorCode = errorCode, Message = msg };
+                result = JsonSerializer.Serialize(objects);
+            }
+
+
+
+            return result;
+
+        }
+
 
     }
 }

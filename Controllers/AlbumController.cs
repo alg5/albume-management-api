@@ -91,6 +91,12 @@ namespace AlbumManagement.Controllers
             return Ok(res);
         }
 
+        [HttpGet]
+        public IActionResult ValidateAlbumCaptionNotTaken(int idUser, string caption)
+        {
+            string res = albumService.ValidateAlbumCaptionNotTaken(idUser, caption);
+            return Ok(res);
+        }
 
     }
 }
