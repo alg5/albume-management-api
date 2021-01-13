@@ -45,7 +45,6 @@ namespace AlbumManagement.Controllers
         }
 
         [HttpPost]
-
         public IActionResult AddAlbum([FromBody] Album model)
         {
              string res = albumService.AddAlbum(model);
@@ -95,6 +94,12 @@ namespace AlbumManagement.Controllers
         public IActionResult ValidateAlbumCaptionNotTaken(int idUser, string caption)
         {
             string res = albumService.ValidateAlbumCaptionNotTaken(idUser, caption);
+            return Ok(res);
+        }
+        [HttpPost]
+        public IActionResult AlbumExportToExcel([FromBody] Album[] albumList)
+        {
+            string res = albumService.AlbumExportToExcel(albumList);
             return Ok(res);
         }
 
