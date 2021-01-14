@@ -11,7 +11,9 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.Office.Interop.Excel;
+//using Microsoft.Office.Interop.Excel;
+
+using ClosedXML.Excel;
 
 namespace AlbumManagement.Services
 {
@@ -303,108 +305,57 @@ namespace AlbumManagement.Services
 
         }
 
-        public string AlbumExportToExcel(Album[] albums)
+         public string AlbumExportToExcel(Album[] albums)
         {
             try
             {
-                Microsoft.Office.Interop.Excel.Application excel;
-                Microsoft.Office.Interop.Excel.Workbook excelworkBook;
-                Microsoft.Office.Interop.Excel.Worksheet excelSheet;
-                Microsoft.Office.Interop.Excel.Range excelCellrange;
 
-                // Start Excel and get Application object.  
-                excel = new Microsoft.Office.Interop.Excel.Application();
-                // for making Excel visible  
-                excel.Visible = false;
-                excel.DisplayAlerts = false;
-                // Creation a new Workbook  
-                excelworkBook = excel.Workbooks.Add(Type.Missing);
-                // Workk sheet  
-                excelSheet = (Microsoft.Office.Interop.Excel.Worksheet)excelworkBook.ActiveSheet;
-                excelSheet.Name = "AlbumList";
-
-                excelSheet.Cells[1, 1] = "My albums";
-                excelSheet.Cells[1, 2] = "Date : " + DateTime.Now.ToShortDateString();
-
-                int rowcount = 2;
-                int columnCount = 4;
-                foreach (Album album in albums)
+                //Create a workbook
+                using (XLWorkbook workbook = new XLWorkbook())
                 {
-                    rowcount += 1;
-                    for (int i = 1; i <= columnCount; i++)
+                    IXLWorksheet worksheet = workbook.Worksheets.Add("Albums");
+                    worksheet.Name = "AlbumList";
+
+                    //TODO
+                    //Adding a picture
+                    //FileStream imageStream = new FileStream("AdventureCycles-Logo.png", FileMode.Open, FileAccess.Read);
+                    //IPictureShape shape = worksheet.Pictures.AddPicture(1, 1, imageStream);
+
+                    //Disable gridlines in the worksheet
+                    //worksheet.IsGridLinesVisible = false;
+
+                    worksheet.Cell(1, 1).Value = "My albums";
+                    worksheet.Cell(1, 2).Value = "Date : " + DateTime.Now.ToShortDateString();
+
+                    int rowcount = 3;
+                    int columnCount = 4;
+                    CreateExcelHeader(worksheet, rowcount, columnCount);
+
+                    foreach (Album album in albums)
                     {
-                        // on the first iteration we add the column headers
-                        if (rowcount == 3)
-                        {
-                            var headerText = i switch
-                            {
-                                1 => "Caption",
-                                2 => "IssueYear",
-                                3 => "NameArtist",
-                                4 => "Genres",
-                                0 => throw new NotSupportedException(),
-
-                            };
-                            excelSheet.Cells[2, i] = headerText.ToString();
-                            excelSheet.Cells.Font.Color = System.Drawing.Color.Black;
-
-                        }
-                        else
-                        {
-                            var cellText = i switch
-                            {
-                                1 => album.Caption,
-                                2 => album.IssueYear.ToString(),
-                                3 => album.NameArtist,
-                                4 => album.GenresDesc
-                            };
-                             excelSheet.Cells[rowcount, i] = cellText.ToString();
-                        }
-
-
-
-                        //for alternate rows
-                        if (rowcount > 3)
-                        {
-                            if (i == columnCount)
-                            {
-                                if (rowcount % 2 == 0)
-                                {
-                                    excelCellrange = excelSheet.Range[excelSheet.Cells[rowcount, 1], excelSheet.Cells[rowcount, columnCount]];
-                                    FormattingExcelCells(excelCellrange, "#CCCCFF", System.Drawing.Color.Black, false);
-                                }
-
-                            }
-                        }
-
+                        rowcount += 1;
+                        CreateExcelRow(worksheet, rowcount, columnCount, album);
+                    }
+                    string fileName = string.Format("albumList_{0}.xlsx", DateTime.Now.ToString("MM.dd.yyyy_hh.mm.ss"));
+                    string folderName = Path.Combine("wwwroot", "excel");
+                    string pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    string fullPath = Path.Combine(pathToSave, fileName);
+                    if (!Directory.Exists(pathToSave))
+                    {
+                        Directory.CreateDirectory(pathToSave);
+                    }
+                    //Saving the Excel to the MemoryStream 
+                     using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        stream.Position = 0;
+                        var content = stream.ToArray();
+                        FileStream fileStream = new FileStream(fullPath, FileMode.Create);
+                        workbook.SaveAs(fileStream);
+                        //return File(content, contentType, fileName);
                     }
 
                 }
-
-
-
-                // now we resize the columns  
-                // loop through each row and add values to our sheet
-
-                excelCellrange = excelSheet.Range[excelSheet.Cells[1, 1], excelSheet.Cells[rowcount, columnCount]];
-                excelCellrange.EntireColumn.AutoFit();
-                Microsoft.Office.Interop.Excel.Borders border = excelCellrange.Borders;
-                border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
-                border.Weight = 2d;
-                excelCellrange = excelSheet.Range[excelSheet.Cells[1, 1], excelSheet.Cells[2, columnCount]];
-                FormattingExcelCells(excelCellrange, "#000099", System.Drawing.Color.White, true);
-                //now save the workbook and exit Excel
-
-                string folderName = Path.Combine("wwwroot", "excel");
-                string pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-
-                if (!Directory.Exists(pathToSave))
-                {
-                    Directory.CreateDirectory(pathToSave);
-                }
-                excelworkBook.SaveAs(pathToSave); ;
-                excelworkBook.Close();
-                excel.Quit();
             }
             catch (Exception ex)
             {
@@ -412,16 +363,66 @@ namespace AlbumManagement.Services
             }
 
             return "";
+
+     
         }
-        public void FormattingExcelCells(Microsoft.Office.Interop.Excel.Range range, string HTMLcolorCode, System.Drawing.Color fontColor, bool IsFontbool)
+        void CreateExcelRow(IXLWorksheet worksheet, int rowcount, int columnCount, Album album)
         {
-            range.Interior.Color = System.Drawing.ColorTranslator.FromHtml(HTMLcolorCode);
-            range.Font.Color = System.Drawing.ColorTranslator.ToOle(fontColor);
-            if (IsFontbool == true)
+            for (int col = 1; col <= columnCount; col++)
             {
-                range.Font.Bold = IsFontbool;
+
+                var cellText = col switch
+                {
+                    1 => album.Caption,
+                    2 => album.IssueYear.ToString(),
+                    3 => album.NameArtist,
+                    4 => album.GenresDesc
+                };
+                worksheet.Cell(rowcount, col).Value = cellText.ToString();
+
+                //TODO
+                //for alternate rows
+                //    if (col == columnCount)
+                //{
+                //    if (rowcount % 2 == 0)
+                //    {
+                //        IRange range = worksheet.Range[rowcount, 1, rowcount, columnCount];
+                //        FormattingExcelCells(range, "#CCCCFF", ExcelKnownColors.Black, false);
+                //    }
+                //}
+
+            }
+        }            
+        void CreateExcelHeader(IXLWorksheet worksheet, int rowcount, int columnCount)
+        {
+            for (int col = 1; col <= columnCount; col++)
+            {
+                    var headerText = col switch
+                {
+                    1 => "Caption",
+                    2 => "IssueYear",
+                    3 => "NameArtist",
+                    4 => "Genres",
+                    0 => throw new NotSupportedException(),
+
+                };
+                worksheet.Cell(rowcount, col).Value = headerText.ToString();
+                //Make the text bold and color black
+                worksheet.Cell(rowcount, col).Style.Font.Bold = true;
+                worksheet.Cell(rowcount, col).Style.Font.FontColor = XLColor.Black;
+
             }
         }
 
+
+        //public void FormattingExcelCells(IRange range, string HTMLcolorCode, ExcelKnownColors fontColor, bool IsFontbool)
+        //{
+        //    //range.CellStyle.Interior.Color = System.Drawing.ColorTranslator.FromHtml(HTMLcolorCode);
+        //    range.CellStyle.Font.Color = fontColor;
+        //    if (IsFontbool == true)
+        //    {
+        //        range.CellStyle.Font.Bold = IsFontbool;
+        //    }
+        //}
     }
 }

@@ -28,7 +28,6 @@ C:\myProjects\AlbumManagement\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Lo
 C:\myProjects\AlbumManagement\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
 C:\myProjects\AlbumManagement\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\myProjects\AlbumManagement\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
-C:\myProjects\AlbumManagement\bin\Debug\netcoreapp3.1\Microsoft.Office.Interop.Excel.dll
 C:\myProjects\AlbumManagement\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
 C:\myProjects\AlbumManagement\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
 C:\myProjects\AlbumManagement\bin\Debug\netcoreapp3.1\System.ComponentModel.Annotations.dll
@@ -49,7 +48,6 @@ C:\myProjects\AlbumManagement\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\Mi
 C:\myProjects\AlbumManagement\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.pdb
 C:\myProjects\AlbumManagement\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\myProjects\AlbumManagement\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\myProjects\AlbumManagement\obj\Debug\netcoreapp3.1\AlbumManagement.csprojAssemblyReference.cache
 C:\myProjects\AlbumManagement\obj\Debug\netcoreapp3.1\AlbumManagement.AssemblyInfoInputs.cache
 C:\myProjects\AlbumManagement\obj\Debug\netcoreapp3.1\AlbumManagement.AssemblyInfo.cs
 C:\myProjects\AlbumManagement\obj\Debug\netcoreapp3.1\AlbumManagement.csproj.CoreCompileInputs.cache
@@ -76,3 +74,7 @@ C:\myProjects\AlbumManagement\obj\Debug\netcoreapp3.1\AlbumManagement.csproj.Cop
 C:\myProjects\AlbumManagement\obj\Debug\netcoreapp3.1\AlbumManagement.dll
 C:\myProjects\AlbumManagement\obj\Debug\netcoreapp3.1\AlbumManagement.pdb
 C:\myProjects\AlbumManagement\obj\Debug\netcoreapp3.1\AlbumManagement.genruntimeconfig.cache
+C:\myProjects\AlbumManagement\bin\Debug\netcoreapp3.1\ClosedXML.dll
+C:\myProjects\AlbumManagement\bin\Debug\netcoreapp3.1\DocumentFormat.OpenXml.dll
+C:\myProjects\AlbumManagement\bin\Debug\netcoreapp3.1\ExcelNumberFormat.dll
+C:\myProjects\AlbumManagement\bin\Debug\netcoreapp3.1\System.IO.Packaging.dll
