@@ -78,3 +78,4 @@ C:\myProjects\AlbumManagement\bin\Debug\netcoreapp3.1\ClosedXML.dll
 C:\myProjects\AlbumManagement\bin\Debug\netcoreapp3.1\DocumentFormat.OpenXml.dll
 C:\myProjects\AlbumManagement\bin\Debug\netcoreapp3.1\ExcelNumberFormat.dll
 C:\myProjects\AlbumManagement\bin\Debug\netcoreapp3.1\System.IO.Packaging.dll
+C:\myProjects\AlbumManagement\obj\Debug\netcoreapp3.1\AlbumManagement.csprojAssemblyReference.cache

@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 //using Microsoft.Office.Interop.Excel;
 
 using ClosedXML.Excel;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AlbumManagement.Services
 {
@@ -305,7 +306,7 @@ namespace AlbumManagement.Services
 
         }
 
-         public string AlbumExportToExcel(Album[] albums)
+         public IActionResult AlbumExportToExcel(Album[] albums)
         {
             try
             {
@@ -345,15 +346,16 @@ namespace AlbumManagement.Services
                         Directory.CreateDirectory(pathToSave);
                     }
                     //Saving the Excel to the MemoryStream 
-                     using (var stream = new MemoryStream())
-                    {
-                        workbook.SaveAs(stream);
-                        stream.Position = 0;
-                        var content = stream.ToArray();
-                        FileStream fileStream = new FileStream(fullPath, FileMode.Create);
-                        workbook.SaveAs(fileStream);
-                        //return File(content, contentType, fileName);
-                    }
+                    // using (var stream = new MemoryStream())
+                    //{
+                    //    workbook.SaveAs(stream);
+                    //    stream.Position = 0;
+                    //    var content = stream.ToArray();
+                    //    //FileStream fileStream = new FileStream(fullPath, FileMode.Create);
+                    //    //workbook.SaveAs(fileStream);
+                    //    string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    //      return  File(content, contentType, fileName);
+                    //}
 
                 }
             }
@@ -362,11 +364,11 @@ namespace AlbumManagement.Services
                 string s = ex.Message;
             }
 
-            return "";
+            return null;
 
      
         }
-        void CreateExcelRow(IXLWorksheet worksheet, int rowcount, int columnCount, Album album)
+        public void CreateExcelRow(IXLWorksheet worksheet, int rowcount, int columnCount, Album album)
         {
             for (int col = 1; col <= columnCount; col++)
             {
@@ -393,7 +395,7 @@ namespace AlbumManagement.Services
 
             }
         }            
-        void CreateExcelHeader(IXLWorksheet worksheet, int rowcount, int columnCount)
+        public void CreateExcelHeader(IXLWorksheet worksheet, int rowcount, int columnCount)
         {
             for (int col = 1; col <= columnCount; col++)
             {
