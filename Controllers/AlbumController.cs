@@ -12,6 +12,7 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Net.Mime;
 
 namespace AlbumManagement.Controllers
 {
@@ -40,7 +41,7 @@ namespace AlbumManagement.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/[action]")]
+     //   [Route("[controller]/[action]")]
         public IActionResult GetAlbums(int id)
         {
             string res = albumService.GetAlbums(id);
@@ -138,16 +139,26 @@ namespace AlbumManagement.Controllers
                         Directory.CreateDirectory(pathToSave);
                     }
                     //Saving the Excel to the MemoryStream 
+                    byte[] content;
                     using (var stream = new MemoryStream())
                     {
                         workbook.SaveAs(stream);
                         stream.Position = 0;
-                        var content = stream.ToArray();
-                        //FileStream fileStream = new FileStream(fullPath, FileMode.Create);
-                        //workbook.SaveAs(fileStream);
-                        string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                        return File(content, contentType, fileName);
-                    }
+                        content = stream.ToArray();
+                        FileStream fileStream = new FileStream(fullPath, FileMode.Create);
+                        workbook.SaveAs(fileStream);
+                        fileStream.Close();
+                        // string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                        //string contentType = "application/octet-stream";
+                     }
+                    bool isExcelInstalled = Type.GetTypeFromProgID("Excel.Application") != null ? true : false;
+                    //if (isExcelInstalled)
+                    //{
+                    //    FileInfo excelFile = new FileInfo(fullPath);
+                    //    System.Diagnostics.Process.Start(excelFile.ToString());
+                    //}
+                    return File(content, MediaTypeNames.Application.Octet, fileName);
+
                 }
             }
             catch (Exception ex)

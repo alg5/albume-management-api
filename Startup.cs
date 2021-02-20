@@ -53,6 +53,8 @@ namespace AlbumManagement
 
             services.AddTransient<AlbumService>();
             services.AddTransient<UserService>();
+            services.AddTransient<CustomerPrService>();
+
             services.AddHttpContextAccessor();
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
@@ -91,6 +93,9 @@ namespace AlbumManagement
                             defaults: new { controller = "User", action = "Login" });
                 endpoints.MapControllerRoute(name: "default",
                             pattern: "{controller=Album}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(name: "customerPr",
+                            pattern: "blog/{*article}",
+                            defaults: new { controller = "CustomerPr", action = "Login" });            
             });
         }
 
